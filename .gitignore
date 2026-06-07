@@ -1,0 +1,24 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+.claude/
+
+# Temp / QA scratch
+_ref_tmp/
+_*.py
+
+# Raw image drops & full-res originals (NOT for deploy)
+assets/images/_originals/
+assets/images/to be used as well in the  showcaing/
+
+# Reference material (design source, not part of the site)
+original anmeldung endpoint/
+oldwebsite endpoints/
+New folder (28)/
+Copy of \[BD\] B2B Webseite.pdf
+AIESEC_CLAUDE_CODE_HANDOFF_v2.md
+
+# Stray screenshots dropped in the project root
+/*.png
+/*.jpg
