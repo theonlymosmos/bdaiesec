@@ -162,6 +162,7 @@ select:focus-visible,textarea:focus-visible{
 .dropdown-menu li a .icon{width:1.15rem;height:1.15rem;color:var(--blue);flex:none}
 .dropdown-menu li a:hover{background:var(--blue-bg);color:var(--blue);transform:translateX(3px)}
 .nav-cta{margin-left:auto;font-size:.83rem;padding:10px 18px;white-space:nowrap}
+.nav-mobile-cta{display:none}
 .hamburger{display:none;flex-direction:column;gap:5px;padding:8px;border-radius:9px}
 .hamburger span{display:block;width:22px;height:2px;background:var(--gray-900);border-radius:2px;transition:var(--trans)}
 .hamburger:hover{background:var(--gray-100)}
@@ -638,9 +639,12 @@ select:focus-visible,textarea:focus-visible{
 @media(max-width:768px){
   .nav-links,.nav-cta{display:none}
   .hamburger{display:flex}
-  .nav-links.open{display:flex;flex-direction:column;position:fixed;inset:74px 0 0 0;background:#fff;
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:74px;left:0;
+    width:100%;height:calc(100vh - 74px);height:calc(100dvh - 74px);background:#fff;
     padding:1.5rem;overflow-y:auto;gap:.25rem;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,.12)}
   .nav-links.open .nav-item>a{font-size:1.05rem;padding:14px 16px;border-radius:12px}
+  .nav-links.open .nav-mobile-cta{display:block;margin-top:1.4rem}
+  .nav-links.open .nav-mobile-cta a{display:flex;justify-content:center;color:#fff}
   .nav-links.open .nav-item>a::after{display:none}
   .nav-links.open .dropdown-menu{position:static;opacity:1;visibility:visible;transform:none;
     box-shadow:none;border:none;background:var(--gray-50);margin:.25rem 0;border-radius:12px;min-width:0}
@@ -688,7 +692,7 @@ select:focus-visible,textarea:focus-visible{
   background:radial-gradient(circle,rgba(0,196,154,.4),transparent 70%)}
 @keyframes csFloat{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,30px)}}
 .cs-inner{position:relative;z-index:1;max-width:700px}
-.cs-logo{height:50px;width:auto;margin-bottom:2.4rem;filter:drop-shadow(0 8px 24px rgba(0,0,0,.45))}
+.cs-logo{height:50px;width:auto;margin:0 auto 2.4rem;filter:drop-shadow(0 8px 24px rgba(0,0,0,.45))}
 .cs-badge{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
   color:var(--teal);border:1px solid rgba(0,196,154,.4);border-radius:100px;padding:7px 18px;margin-bottom:1.7rem}
 .cs-title{font-size:clamp(2.6rem,9vw,5.5rem);font-weight:800;letter-spacing:-.03em;line-height:1;margin-bottom:1.4rem;
