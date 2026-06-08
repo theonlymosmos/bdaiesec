@@ -205,9 +205,9 @@ document.querySelectorAll('.video-facade').forEach((el) => {
     if (el.dataset.loaded) return;
     el.dataset.loaded = '1';
     const id = el.dataset.video;
-    const start = el.dataset.start ? '&start=' + el.dataset.start : '';
+    const start = (el.dataset.start && el.dataset.start !== '0') ? '&start=' + el.dataset.start : '';
     const iframe = document.createElement('iframe');
-    iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0' + start;
+    iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&controls=1&playsinline=1' + start;
     iframe.title = el.getAttribute('aria-label') || 'Video';
     iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     iframe.allowFullscreen = true;
