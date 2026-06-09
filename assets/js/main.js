@@ -277,22 +277,7 @@ document.querySelectorAll('.video-facade').forEach((el) => {
 })();
 
 /* ── Text shine: one-pass light sweep when a heading first enters view ── */
-(() => {
-  if (reduceMotion) return;
-  const heads = document.querySelectorAll('.section-title');
-  if (!heads.length) return;
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const el = e.target;
-      obs.unobserve(el);
-      el.addEventListener('animationend', () => el.classList.remove('shine-go'), { once: true });
-      // small delay so it reads as a deliberate "reveal" shine
-      setTimeout(() => el.classList.add('shine-go'), 180);
-    });
-  }, { threshold: 0.6 });
-  heads.forEach(h => obs.observe(h));
-})();
+/* (heading text-shine removed — moved the effect to the hero headline only) */
 
 /* ── Hero content scroll-fade (cinematic depart on scroll) ── */
 (() => {

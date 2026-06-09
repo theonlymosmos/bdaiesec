@@ -746,7 +746,7 @@ select:focus-visible,textarea:focus-visible{
   .to-top{transition:none}
 }
 
-/* ════════════ WOW LAYER (hero aurora � stat numbers � 1948 shimmer) ════════════ */
+/* ════════════ WOW LAYER (hero aurora � stat numbers � 1948 shimmer) ════════════ */
 /* Hero: drifting blue+teal aurora over the photo (premium glow, above overlay/below content) */
 .hero-aurora{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 .hero-aurora::before,.hero-aurora::after{content:"";position:absolute;border-radius:50%;
@@ -770,22 +770,18 @@ select:focus-visible,textarea:focus-visible{
   box-shadow:0 0 0 0 rgba(3,126,243,0);transition:box-shadow .6s var(--ease-out)}
 .stat-card.glow::after{box-shadow:0 0 38px -6px rgba(3,126,243,.4)}
 
-/* "1948" shimmering gradient + glow */
-.year-num{background:linear-gradient(105deg,#fff 28%,#a9d6fc 50%,#fff 72%);background-size:240% 100%;
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 6px 30px rgba(255,255,255,.28));animation:yearSheen 6s ease-in-out infinite}
-@keyframes yearSheen{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-
 /* About: slow drifting decorative glow rings */
 .about-deco-tl{animation:aboutDrift 18s ease-in-out infinite alternate}
 .about-deco-br{animation:aboutDrift 23s ease-in-out infinite alternate-reverse}
 @keyframes aboutDrift{from{transform:translate(0,0) scale(1)}to{transform:translate(46px,34px) scale(1.12)}}
 
 /* ════════════ TEXT SHINE — one-pass light sweep on first view ════════════ */
-.shine-go{
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:currentColor;
-  background-image:linear-gradient(110deg,currentColor 0 36%,#eaf4ff 47%,#ffffff 50%,#eaf4ff 53%,currentColor 64% 100%);
-  background-size:230% 100%;background-repeat:no-repeat;
-  animation:textShine 1.15s var(--ease-out) 1 both}
-@keyframes textShine{from{background-position:125% 0}to{background-position:-25% 0}}
-@media(prefers-reduced-motion:reduce){.shine-go{animation:none;-webkit-text-fill-color:currentColor}}
+/* Hero headline: one elegant light glint sweeps across once on load, then the
+   text stays plain white. Eye-catcher for the first thing visitors see. */
+.hero-title{position:relative;isolation:isolate}
+.hero-title::after{content:"";position:absolute;inset:-4% -8%;z-index:1;pointer-events:none;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.5) 48%,rgba(173,214,252,.45) 52%,transparent 60%);
+  mix-blend-mode:overlay;transform:translateX(-130%);
+  animation:heroGlint 2.4s cubic-bezier(.2,.7,.2,1) 1.35s 1 both}
+@keyframes heroGlint{to{transform:translateX(130%)}}
+@media(prefers-reduced-motion:reduce){.hero-title::after{display:none}}
