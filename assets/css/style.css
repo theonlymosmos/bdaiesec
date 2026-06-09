@@ -171,9 +171,10 @@ select:focus-visible,textarea:focus-visible{
 .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;
   padding-top:74px;overflow:hidden;background:var(--blue-deep)}
 .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%;
-  z-index:0;transform:scale(1.06);transition:transform .5s var(--ease-out);
-  animation:heroZoom 16s ease-out forwards, heroFocus 1.5s ease-out both}
-@keyframes heroZoom{from{transform:scale(1.13)}to{transform:scale(1.06)}}
+  z-index:0;scale:1.08;will-change:scale,translate;transition:translate .6s var(--ease-out);
+  animation:heroFocus 1.5s ease-out both, heroKen 30s ease-in-out 1.2s infinite alternate}
+/* continuous cinematic Ken Burns (scale is an independent property so JS parallax can drive translate) */
+@keyframes heroKen{from{scale:1.08}to{scale:1.18}}
 @keyframes heroFocus{from{filter:blur(16px) brightness(.7) saturate(1.15)}to{filter:none}}
 .hero-overlay{position:absolute;inset:0;z-index:1;
   background:
@@ -675,7 +676,8 @@ select:focus-visible,textarea:focus-visible{
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
     transition-duration:.001ms!important;scroll-behavior:auto!important}
-  .hero-bg{transform:none}
+  .hero-bg{transform:none;scale:1.06;translate:0;animation:none}
+  .hero-aurora,.grain-overlay{display:none}
   .animate-up,.animate-left,.animate-right{opacity:1;transform:none;filter:none}
   .fx-card{transform:none!important}
   .hero-title .word,.hero-sub,.hero-btn,.hero-pills,.hero-scroll-hint{opacity:1;animation:none}
@@ -743,3 +745,47 @@ select:focus-visible,textarea:focus-visible{
   .grain-overlay{display:none}
   .to-top{transition:none}
 }
+
+/* ════════════ WOW LAYER (hero aurora � stat numbers � 1948 shimmer) ════════════ */
+/* Hero: drifting blue+teal aurora over the photo (premium glow, above overlay/below content) */
+.hero-aurora{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.hero-aurora::before,.hero-aurora::after{content:"";position:absolute;border-radius:50%;
+  filter:blur(72px);mix-blend-mode:screen;will-change:transform}
+.hero-aurora::before{width:56vw;height:56vw;top:-18%;left:-12%;
+  background:radial-gradient(circle,rgba(3,126,243,.6),transparent 62%);
+  animation:heroAura1 19s ease-in-out infinite alternate}
+.hero-aurora::after{width:48vw;height:48vw;bottom:-22%;right:-10%;
+  background:radial-gradient(circle,rgba(0,196,154,.5),transparent 62%);
+  animation:heroAura2 24s ease-in-out infinite alternate}
+@keyframes heroAura1{from{transform:translate(0,0) scale(1)}to{transform:translate(22%,16%) scale(1.22)}}
+@keyframes heroAura2{from{transform:translate(0,0) scale(1)}to{transform:translate(-20%,-14%) scale(1.16)}}
+
+/* Stats: gradient numbers + count-up "pop" */
+.stat-num{background:linear-gradient(118deg,var(--blue) 18%,var(--teal));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 4px 14px rgba(3,126,243,.18))}
+.stat-num.counted{animation:numPop .62s var(--ease-out)}
+@keyframes numPop{0%{transform:scale(1)}38%{transform:scale(1.16)}100%{transform:scale(1)}}
+.stat-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  box-shadow:0 0 0 0 rgba(3,126,243,0);transition:box-shadow .6s var(--ease-out)}
+.stat-card.glow::after{box-shadow:0 0 38px -6px rgba(3,126,243,.4)}
+
+/* "1948" shimmering gradient + glow */
+.year-num{background:linear-gradient(105deg,#fff 28%,#a9d6fc 50%,#fff 72%);background-size:240% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 6px 30px rgba(255,255,255,.28));animation:yearSheen 6s ease-in-out infinite}
+@keyframes yearSheen{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+/* About: slow drifting decorative glow rings */
+.about-deco-tl{animation:aboutDrift 18s ease-in-out infinite alternate}
+.about-deco-br{animation:aboutDrift 23s ease-in-out infinite alternate-reverse}
+@keyframes aboutDrift{from{transform:translate(0,0) scale(1)}to{transform:translate(46px,34px) scale(1.12)}}
+
+/* ════════════ TEXT SHINE — one-pass light sweep on first view ════════════ */
+.shine-go{
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:currentColor;
+  background-image:linear-gradient(110deg,currentColor 0 36%,#eaf4ff 47%,#ffffff 50%,#eaf4ff 53%,currentColor 64% 100%);
+  background-size:230% 100%;background-repeat:no-repeat;
+  animation:textShine 1.15s var(--ease-out) 1 both}
+@keyframes textShine{from{background-position:125% 0}to{background-position:-25% 0}}
+@media(prefers-reduced-motion:reduce){.shine-go{animation:none;-webkit-text-fill-color:currentColor}}

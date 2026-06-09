@@ -72,7 +72,12 @@ function animateCounter(el) {
     const p = Math.min((now - start) / duration, 1);
     el.textContent = formatNum(target * easeOut(p));
     if (p < 1) requestAnimationFrame(tick);
-    else el.textContent = formatNum(target);
+    else {
+      el.textContent = formatNum(target);
+      el.classList.add('counted');
+      const card = el.closest('.stat-card');
+      if (card) { card.classList.add('glow'); setTimeout(() => card.classList.remove('glow'), 900); }
+    }
   };
   requestAnimationFrame(tick);
 }
@@ -156,13 +161,13 @@ if (!reduceMotion && finePointer) {
       if (raf) return;
       raf = requestAnimationFrame(() => {
         const r = hero.getBoundingClientRect();
-        const dx = ((e.clientX - r.left) / r.width - 0.5) * -16;
-        const dy = ((e.clientY - r.top) / r.height - 0.5) * -16;
-        heroBg.style.transform = `scale(1.06) translate(${dx}px, ${dy}px)`;
+        const dx = ((e.clientX - r.left) / r.width - 0.5) * -22;
+        const dy = ((e.clientY - r.top) / r.height - 0.5) * -22;
+        heroBg.style.translate = `${dx}px ${dy}px`;
         raf = null;
       });
     });
-    hero.addEventListener('pointerleave', () => { heroBg.style.transform = ''; });
+    hero.addEventListener('pointerleave', () => { heroBg.style.translate = ''; });
   }
 }
 
@@ -269,4 +274,58 @@ document.querySelectorAll('.video-facade').forEach((el) => {
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
   cards.forEach(c => obs.observe(c));
+})();
+
+/* ── Text shine: one-pass light sweep when a heading first enters view ── */
+(() => {
+  if (reduceMotion) return;
+  const heads = document.querySelectorAll('.section-title');
+  if (!heads.length) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      obs.unobserve(el);
+      el.addEventListener('animationend', () => el.classList.remove('shine-go'), { once: true });
+      // small delay so it reads as a deliberate "reveal" shine
+      setTimeout(() => el.classList.add('shine-go'), 180);
+    });
+  }, { threshold: 0.6 });
+  heads.forEach(h => obs.observe(h));
+})();
+
+/* ── Hero content scroll-fade (cinematic depart on scroll) ── */
+(() => {
+  if (reduceMotion) return;
+  const hc = document.querySelector('.hero .hero-content');
+  if (!hc) return;
+  let raf = null;
+  window.addEventListener('scroll', () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      const y = window.scrollY, vh = window.innerHeight;
+      if (y < vh) {
+        hc.style.opacity = String(Math.max(0, 1 - y / (vh * 0.72)));
+        hc.style.transform = 'translateY(' + (y * 0.22) + 'px)';
+      }
+      raf = null;
+    });
+  }, { passive: true });
+})();
+
+/* ── Standorte pills: staggered reveal ── */
+(() => {
+  const pills = document.querySelectorAll('.locations-grid span');
+  if (!pills.length) return;
+  pills.forEach((s, i) => { s.classList.add('animate-up'); s.style.animationDelay = (i * 0.028) + 's'; });
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const d = parseFloat(e.target.style.animationDelay) || 0;
+        setTimeout(() => e.target.classList.add('in-view'), d * 1000);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  pills.forEach(s => obs.observe(s));
 })();
