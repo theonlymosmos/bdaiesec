@@ -715,3 +715,31 @@ select:focus-visible,textarea:focus-visible{
   color:#fff;font-size:.84rem;font-weight:600;background:linear-gradient(to top,rgba(7,18,38,.86),transparent)}
 .partners-cta{text-align:center;margin-top:2.4rem}
 @media(max-width:760px){.partner-showcase{grid-template-columns:1fr}}
+
+/* ════════════ HIGH-END POLISH LAYER (additive) ════════════ */
+/* Subtle film grain — premium filmic texture over the whole page */
+.grain-overlay{position:fixed;inset:0;z-index:1150;pointer-events:none;opacity:.20;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px}
+
+/* Nav underline → brand gradient (blue → teal) */
+.nav-item>a::after{background:linear-gradient(90deg,var(--blue),var(--teal))}
+
+/* Back-to-top floating button */
+.to-top{position:fixed;right:22px;bottom:22px;z-index:1100;width:48px;height:48px;border-radius:50%;
+  display:grid;place-items:center;background:var(--blue);color:#fff;box-shadow:var(--shadow-blue);
+  opacity:0;visibility:hidden;transform:translateY(14px) scale(.9);transition:var(--trans)}
+.to-top.show{opacity:1;visibility:visible;transform:none}
+.to-top:hover{background:var(--blue-dark);transform:translateY(-3px) scale(1.04)}
+.to-top svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.to-top{right:16px;bottom:16px;width:44px;height:44px}}
+
+/* Partner-showcase figures: premium lift + glow on hover */
+.partner-showcase figure{transition:transform .5s var(--ease-out),box-shadow .5s var(--ease-out)}
+.partner-showcase figure:hover{transform:translateY(-6px);box-shadow:0 30px 64px -22px rgba(3,126,243,.5)}
+
+/* Partner logo cards: gentle reveal start state when JS adds .animate-up handled globally */
+@media(prefers-reduced-motion:reduce){
+  .grain-overlay{display:none}
+  .to-top{transition:none}
+}

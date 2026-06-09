@@ -220,3 +220,53 @@ document.querySelectorAll('.video-facade').forEach((el) => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); load(); }
   });
 });
+
+/* ════════════ HIGH-END POLISH LAYER (additive) ════════════ */
+/* Film grain overlay (skipped for reduced-motion via CSS display:none too) */
+(() => {
+  if (reduceMotion) return;
+  const grain = document.createElement('div');
+  grain.className = 'grain-overlay';
+  grain.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(grain);
+})();
+
+/* Back-to-top button */
+(() => {
+  const btn = document.createElement('button');
+  btn.className = 'to-top';
+  btn.type = 'button';
+  btn.setAttribute('aria-label', 'Nach oben scrollen');
+  btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>';
+  document.body.appendChild(btn);
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      btn.classList.toggle('show', window.scrollY > 600);
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+
+/* Partner logo wall: staggered reveal on scroll */
+(() => {
+  const cards = document.querySelectorAll('.partners-logos .partner-logo-card');
+  if (!cards.length) return;
+  cards.forEach((c, i) => {
+    c.classList.add('animate-up');
+    c.style.animationDelay = (i * 0.05) + 's';
+  });
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const d = parseFloat(e.target.style.animationDelay) || 0;
+        setTimeout(() => e.target.classList.add('in-view'), d * 1000);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  cards.forEach(c => obs.observe(c));
+})();

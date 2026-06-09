@@ -100,6 +100,16 @@ Cursor-follow spotlight + subtle 3D tilt on cards (`.fx-card`, auto-applied via
 button shine sweep, refined blur-in reveals, hero pointer-parallax (bg keeps
 scale(1.06) overscan so it never gaps). All `prefers-reduced-motion` + touch guarded.
 
+**High-end polish sprinkle (2026-06-09)** — additive only, no asset/content changes:
+- **Film grain** — `.grain-overlay` (fixed, `mix-blend:overlay`, opacity .20, SVG `feTurbulence`
+  data-URI) appended to `<body>` by `main.js`. Filmic over imagery/dark, ~invisible on white.
+  Hidden under `prefers-reduced-motion`. (data: URI allowed by CSP `img-src data:`.)
+- **Back-to-top** — `.to-top` button injected by `main.js`, shows after 600px scroll (rAF-throttled).
+- **Partner-logo wall** — JS adds `.animate-up` + staggered `animationDelay`, revealed by a dedicated
+  IntersectionObserver (logos were static before).
+- **Nav underline** → blue→teal gradient; **`.partner-showcase figure`** lift+glow on hover.
+- Owner directive: *high-end, catchy, professional* — but still **don't over-design** (subtle > flashy).
+
 ## DONE — fixes & load polish
 - **Dropdown hover bug fixed** — the nav "Kooperationsmöglichkeiten" menu had a gap
   that closed it before you could reach the items. Fixed with an invisible `::before`
