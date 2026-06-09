@@ -708,7 +708,7 @@ select:focus-visible,textarea:focus-visible{
 /* ════════════ PARTNER-IN-ACTION SHOWCASE ════════════ */
 .partner-showcase{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin:2.4rem 0 3rem}
 .partner-showcase figure{margin:0;border-radius:var(--radius-xl);overflow:hidden;position:relative;
-  aspect-ratio:4/3;box-shadow:var(--shadow-md);background:var(--blue-deep)}
+  aspect-ratio:3/2;box-shadow:var(--shadow-md);background:var(--blue-deep)}
 .partner-showcase img{width:100%;height:100%;object-fit:cover;transition:transform .55s var(--ease-out)}
 .partner-showcase figure:hover img{transform:scale(1.06)}
 .partner-showcase figcaption{position:absolute;left:0;right:0;bottom:0;padding:1.2rem 1.1rem .85rem;
